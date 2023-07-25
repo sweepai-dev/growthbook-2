@@ -895,15 +895,17 @@ export function postMetricApiPayloadIsValid(
       typeof sqlBuilder.valueColumnName !== "undefined"
     )
       return {
-        valid: false,
-        error: "Binomial metrics cannot have a valueColumnName",
-      };
-  }
-
-  return {
-    valid: true,
-  };
-}
+        function defineExperimentDetectionQuery(lookbackRange = '1 YEAR') {
+          const query = `SELECT * FROM experiments WHERE date > NOW() - INTERVAL ${lookbackRange}`;
+          return query;
+        }
+        
+        function triggerExperimentDetectionQuery(populate = false) {
+          if (populate || /* a certain time has elapsed */) {
+            const query = defineExperimentDetectionQuery();
+            // Execute the query...
+          }
+        }
 
 export function putMetricApiPayloadIsValid(
   payload: z.infer<typeof putMetricValidator.bodySchema>
