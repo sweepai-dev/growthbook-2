@@ -66,6 +66,7 @@ const Results: FC<{
   const orgSettings = useOrgSettings();
   const pValueCorrection = orgSettings?.pValueCorrection;
 
+  const [lookbackRange, setLookbackRange] = useState(365); // default to 1 year
   const {
     error,
     snapshot,
@@ -208,6 +209,7 @@ const Results: FC<{
               body: JSON.stringify({
                 phase,
                 dimension,
+                lookbackRange,
               }),
             });
             trackSnapshot(
